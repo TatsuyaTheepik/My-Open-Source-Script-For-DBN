@@ -4,8 +4,10 @@ local char = player.Character
 
 -- COLORS
 
-local yourcolor = Color3.fromRGB(255, 255, 255) -- pick a color from rgb yes 
-local yourvertexcolor = Vector3.new(1, 1, 1) -- pick color 
+local yourcolor = Color3.fromRGB(85, 0, 0) -- pick a color from rgb yes i choose red for example
+local yourvertexcolor = Vector3.new(1, 1, 1) 
+
+
 
 local currentform = player:WaitForChild("CurrentForm").Value
 
@@ -58,10 +60,23 @@ local function applysphereoutsidecolor()
 	end
 end
 
+local function kiblastcolor()
+	local kiblast = char.KiBlast
+	if kiblast then
+		for i_, v in char:GetDescendants() do
+			if v.Name == "KiBlast" and v:IsA("Part") then
+				v.Color = yourcolor
+			end
+		end
+
+	end
+end
+
 runservice.Heartbeat:Connect(function(OnHeartBeat)
 	applybeamscolor()
 	applysphereinsidecolor()
 	applysphereoutsidecolor()
+	kiblastcolor()
 end)
 
 local function applyvfxcolor()
@@ -83,14 +98,14 @@ end)
 local function updatefacetexture()
 	local currentform = player:WaitForChild("CurrentForm").Value
 	if not currentform then return end
-	
+
 	local formStr = tostring(currentform)
 	local faceTexture = FACE_TEXTURES[formStr]
 	if faceTexture then
 		if player.Character and player.Character:FindFirstChild("Head") then
 			local head = player.Character.Head
 			local face = head:FindFirstChild("face")
-			
+
 			if face:IsA("Decal") then
 				face.Texture = faceTexture
 			end
@@ -103,14 +118,25 @@ updatefacetexture()
 local function shirtandpantsapply()
 	local shirt = char:FindFirstChild("Shirt")
 	local pants = char:FindFirstChild("Pants")
-	
+
 	if shirt then
 		shirt.ShirtTemplate = SHIRTTEMPLATE
 	end
-	
+
 	if pants then
 		pants.PantsTemplate = PANTSTEMPLATE
 	end
 end
 
 shirtandpantsapply()
+
+local function text()
+	local text = player.PlayerGui:WaitForChild("Menu"):FindFirstChild("Buttons"):FindFirstChild("Play")
+	local text2 = player.PlayerGui:WaitForChild("Menu"):FindFirstChild("Buttons"):FindFirstChild("HowToPlay")
+
+	text.Text = "      Open Source Made by Justice (V1)"
+	text2.Visible = true
+	text2.Text = "     Open Source Made by Justice (V1)"
+end
+
+text()

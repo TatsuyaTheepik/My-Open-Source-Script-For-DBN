@@ -1,2 +1,2 @@
 # My-Open-Source-Script-For-DBN
-yes
+WARNING : DO NOT SELL THIS! ANYONE CAN USE MY OPEN SOURCE 

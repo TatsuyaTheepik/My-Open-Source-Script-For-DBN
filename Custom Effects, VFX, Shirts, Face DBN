@@ -1,0 +1,116 @@
+local player = game.Players.LocalPlayer
+local char = player.Character
+
+
+-- COLORS
+
+local yourcolor = Color3.fromRGB(255, 255, 255) -- pick a color from rgb yes 
+local yourvertexcolor = Vector3.new(1, 1, 1) -- pick color 
+
+local currentform = player:WaitForChild("CurrentForm").Value
+
+-- FACES
+
+local FACE_TEXTURES = {
+	["BASE"] = "rbxassetid://uird",
+	["SSJ"] = "rbxassetid://urid",
+	["SSJ2"] = "rbxassetid://urid",
+	["SSJ3"] = "rbxassetid://urid",
+	["SSJG"] = "rbxassetid://urid",
+	["SSJB"] = "rbxassetid://urid",
+	["SSJBKaioken"] = "rbxassetid://urid"
+}
+
+local SHIRTTEMPLATE = "rbxassetid://urid"
+local PANTSTEMPLATE = "rbxassetid://urid"
+
+local runservice = game:GetService("RunService")
+
+local function applybeamscolor()
+	local beam = char:FindFirstChild("Beam")
+	if beam then
+		for _,v in beam:GetChildren() do
+			v.Color = yourcolor
+		end
+	end
+end
+
+local function applysphereinsidecolor()
+	local sphere = char:FindFirstChild("EnergySphere")
+	if sphere then
+		for _,v in sphere:GetChildren() do
+			if v:IsA("Part") then
+				v.Color = yourcolor
+			end
+			if v:IsA("SpecialMesh") then
+				v.VertexColor = yourvertexcolor
+			end
+		end
+	end
+end
+
+local function applysphereoutsidecolor()
+	local sphere = char:FindFirstChild("EnergySphere")
+	if sphere then
+		while wait() do
+			sphere.Color = yourcolor
+		end
+	end
+end
+
+runservice.Heartbeat:Connect(function(OnHeartBeat)
+	applybeamscolor()
+	applysphereinsidecolor()
+	applysphereoutsidecolor()
+end)
+
+local function applyvfxcolor()
+	for _,v in char:GetDescendants() do
+		if v.Name == "VFX" or v.Name == "Ring" then
+			v.Color = yourcolor
+		end
+	end
+end
+
+runservice.Stepped:Connect(function(Step)
+	applyvfxcolor()
+end)
+
+runservice.RenderStepped:Connect(function(Render)
+	applyvfxcolor()
+end)
+
+local function updatefacetexture()
+	local currentform = player:WaitForChild("CurrentForm").Value
+	if not currentform then return end
+	
+	local formStr = tostring(currentform)
+	local faceTexture = FACE_TEXTURES[formStr]
+	if faceTexture then
+		if player.Character and player.Character:FindFirstChild("Head") then
+			local head = player.Character.Head
+			local face = head:FindFirstChild("face")
+			
+			if face:IsA("Decal") then
+				face.Texture = faceTexture
+			end
+		end
+	end
+end
+
+updatefacetexture()
+
+local function shirtandpantsapply()
+	local shirt = char:FindFirstChild("Shirt")
+	local pants = char:FindFirstChild("Pants")
+	
+	if shirt then
+		shirt.ShirtTemplate = SHIRTTEMPLATE
+	end
+	
+	if pants then
+		pants.PantsTemplate = PANTSTEMPLATE
+	end
+end
+
+shirtandpantsapply()

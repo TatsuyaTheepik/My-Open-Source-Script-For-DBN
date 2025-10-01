@@ -1,5 +1,6 @@
 local player = game.Players.LocalPlayer
 local char = player.Character
+local runservice = game:GetService("RunService")
 
 
 -- COLORS
@@ -7,9 +8,17 @@ local char = player.Character
 local yourcolor = Color3.fromRGB(85, 0, 0) -- pick a color from rgb yes i choose red for example
 local yourvertexcolor = Vector3.new(1, 1, 1) 
 
-
+local sphereoutsidecolor = Color3.fromRGB(255, 255, 255) -- pick one noob
 
 local currentform = player:WaitForChild("CurrentForm").Value
+local currentformstr = {"BASE", "SSJ", "SSJ2", "SSJ3", "SSJ4", "SSJG", "SSJB", "SSJBKaioken", "UIOmen"} -- i use this so i dont forget whats their value lol
+
+local SHIRTTEMPLATE = "rbxassetid://urid"
+local PANTSTEMPLATE = "rbxassetid://urid"
+
+local ssj4shirt = "rbxassetid://urid"
+local ssj4pants = "rbxassetid://urid"
+
 
 -- FACES
 
@@ -18,15 +27,12 @@ local FACE_TEXTURES = {
 	["SSJ"] = "rbxassetid://urid",
 	["SSJ2"] = "rbxassetid://urid",
 	["SSJ3"] = "rbxassetid://urid",
+	["SSJ4"] = "rbxassetid://urid",
 	["SSJG"] = "rbxassetid://urid",
 	["SSJB"] = "rbxassetid://urid",
 	["SSJBKaioken"] = "rbxassetid://urid"
 }
 
-local SHIRTTEMPLATE = "rbxassetid://urid"
-local PANTSTEMPLATE = "rbxassetid://urid"
-
-local runservice = game:GetService("RunService")
 
 local function applybeamscolor()
 	local beam = char:FindFirstChild("Beam")
@@ -55,7 +61,7 @@ local function applysphereoutsidecolor()
 	local sphere = char:FindFirstChild("EnergySphere")
 	if sphere then
 		while wait() do
-			sphere.Color = yourcolor
+			sphere.Color = sphereoutsidecolor
 		end
 	end
 end
@@ -71,6 +77,8 @@ local function kiblastcolor()
 
 	end
 end
+
+
 
 runservice.Heartbeat:Connect(function(OnHeartBeat)
 	applybeamscolor()
@@ -118,7 +126,7 @@ updatefacetexture()
 local function shirtandpantsapply()
 	local shirt = char:FindFirstChild("Shirt")
 	local pants = char:FindFirstChild("Pants")
-
+	
 	if shirt then
 		shirt.ShirtTemplate = SHIRTTEMPLATE
 	end
@@ -140,3 +148,12 @@ local function text()
 end
 
 text()
+
+while wait() do
+	local shirt = char:FindFirstChild("Shirt")
+	local pants = char:FindFirstChild("Pants")
+	if currentform == "SSJ4" then
+		shirt.ShirtTemplate = ssj4shirt
+		pants.PantsTemplate = ssj4pants
+	end
+end

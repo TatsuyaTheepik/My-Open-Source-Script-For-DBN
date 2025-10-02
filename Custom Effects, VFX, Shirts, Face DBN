@@ -10,7 +10,7 @@ local yourvertexcolor = Vector3.new(1, 1, 1)
 
 local sphereoutsidecolor = Color3.fromRGB(255, 255, 255) -- pick one noob
 
-local currentform = player:WaitForChild("CurrentForm").Value
+local currentform = player:WaitForChild("CurrentForm")
 local currentformstr = {"BASE", "SSJ", "SSJ2", "SSJ3", "SSJ4", "SSJG", "SSJB", "SSJBKaioken", "UIOmen"} -- i use this so i dont forget whats their value lol
 
 local SHIRTTEMPLATE = "rbxassetid://urid"
@@ -19,6 +19,17 @@ local PANTSTEMPLATE = "rbxassetid://urid"
 local ssj4shirt = "rbxassetid://urid"
 local ssj4pants = "rbxassetid://urid"
 
+local haircolors = {
+	nil, --base
+	nil, --ssj
+	nil, --ssj2
+	nil, --ssj3
+	nil, --ssj4
+	nil, --ssjg
+	nil, --ssjb
+	nil, --ssjbkk
+	nil -- ui
+}
 
 -- FACES
 
@@ -126,7 +137,7 @@ updatefacetexture()
 local function shirtandpantsapply()
 	local shirt = char:FindFirstChild("Shirt")
 	local pants = char:FindFirstChild("Pants")
-	
+
 	if shirt then
 		shirt.ShirtTemplate = SHIRTTEMPLATE
 	end
@@ -152,8 +163,17 @@ text()
 while wait() do
 	local shirt = char:FindFirstChild("Shirt")
 	local pants = char:FindFirstChild("Pants")
-	if currentform == "SSJ4" then
+	if currentform.Value == "SSJ4" then
 		shirt.ShirtTemplate = ssj4shirt
 		pants.PantsTemplate = ssj4pants
 	end
+	local currenthair = table.find(currentformstr, currentform.Value)
+	if currenthair and haircolors[currenthair] ~= nil then
+		local hair = char:FindFirstChild("GokuHair") or char:FindFirstChild("SSJHair") or char:FindFirstChild("SSJ2Hair") or char:FindFirstChild("SSJ3Hair") or char:FindFirstChild("SSJ4Hair")
+		hair.Color = haircolors[currenthair]
+	end
 end
+
+
+
+-- thanks for awasessa for adding the currentform  for hair thing
